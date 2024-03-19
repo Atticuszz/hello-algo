@@ -25,6 +25,48 @@ vector<int> levelOrder(TreeNode *root) {
     return vec;
 }
 
+/*layer output*/
+/**
+ * https://leetcode.cn/problems/binary-tree-level-order-traversal/
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+vector<vector<int>> layerLevelOrder(TreeNode* root) {
+    vector<vector<int>> res;
+    if(!root){
+        return res;
+    }
+    queue<TreeNode*> my_queue;
+    my_queue.push(root);
+    
+    while(!my_queue.empty()){
+        // for layers collector ,separate the traversal into  layers via my_queue.size()
+        vector<int> layer;
+        int nodes_in_layer = my_queue.size();
+        for(int i=0;i<nodes_in_layer;i++){
+            TreeNode* cur = my_queue.front();
+            layer.push_back(cur->val);
+            my_queue.pop();
+            if(cur->left){
+                my_queue.push(cur->left);
+            }
+            if(cur->right){
+                my_queue.push(cur->right);
+            }
+        }
+        res.push_back(layer);
+    }
+    return res;
+}
+
 /* Driver Code */
 int main() {
     /* 初始化二叉树 */
