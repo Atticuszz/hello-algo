@@ -38,7 +38,6 @@ vector<int> levelOrder(TreeNode *root) {
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 vector<vector<int>> layerLevelOrder(TreeNode* root) {
     vector<vector<int>> res;
     if(!root){
@@ -66,6 +65,53 @@ vector<vector<int>> layerLevelOrder(TreeNode* root) {
     }
     return res;
 }
+/*layer output from bottom*/
+
+/**
+ * https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        if(!root){
+            return {};
+        }
+        vector<vector<int>> res;
+        queue<TreeNode*> my_queue;
+        my_queue.push(root);
+        while(!my_queue.empty()){
+            vector<int> layer;
+            int num_of_layer = my_queue.size();
+
+            for(int i=0;i<num_of_layer;i++){
+                TreeNode* cur = my_queue.front();
+                // add to cur layer
+                layer.push_back(cur->val);
+                my_queue.pop();
+
+                // prepare for next layer
+                if(cur->left){
+                    my_queue.push(cur->left);
+                }
+                if(cur->right){
+                    my_queue.push(cur->right);
+                }
+            }
+            res.push_back(layer);
+        }
+        std::reverse(res.begin(),res.end());
+        return res;
+    }
+};
 
 /* Driver Code */
 int main() {
